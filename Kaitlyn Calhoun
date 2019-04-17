@@ -1,0 +1,59 @@
+#this function should be run INSTEAD of sigmoid
+
+def func(z):
+  #same input and output as sigmoid function
+  s = z / (1 + abs(z))
+  
+  return s
+  
+  
+## in the next two changes to the main code, only num_iterations and learning_rate were changed to better match the function
+# this code should be run INSTEAD of def(model)
+
+def model(X_train, Y_train, X_test, Y_test, num_iterations = 5000000, learning_rate = 0.0002, print_cost = False):
+    """
+    A wrapper for gradient descent.
+    
+    input:   X_train         array of flattened images for training (num_pixels,num_train)
+             Y_train         array of training labels (num_train)
+             X_test          array of flattened images for testing (num_pixels,num_test)
+             Y_test          array of testing labels (num_test)
+             num_iterations  number of iterations for optimization (scalar)
+             learning_rate   gradient multiplier (scalar)
+             print_cost      boolean controlling user feedback
+    output:  d               a dictionary of parameters and costs
+    """
+    
+    # initialize
+    w, b = initialize_model(X_train.shape[0])
+    
+    # gradient descent with training set (optimization)
+    parameters, grads, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
+    
+    # get w and b
+    w = parameters["w"]
+    b = parameters["b"]
+    
+    # predict on testing and training set
+    Y_prediction_test = predict(w, b, X_test)
+    Y_prediction_train = predict(w, b, X_train)
+
+    # print errors
+    print("train accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_train - Y_train)) * 100))
+    print("test accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_test - Y_test)) * 100))
+
+    # save some parameters into a dictionary
+    d = {"costs": costs,
+         "Y_prediction_test": Y_prediction_test, 
+         "Y_prediction_train" : Y_prediction_train, 
+         "w" : w, 
+         "b" : b,
+         "learning_rate" : learning_rate,
+         "num_iterations": num_iterations}
+    
+    return d
+    
+    
+  # this code should be run INSTEAD of the last line of code
+  
+  d = model(train_set_x.T, labels_train, test_set_x.T, labels_test, num_iterations = 5000000, learning_rate = 0.002, print_cost = True)
