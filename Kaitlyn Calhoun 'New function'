@@ -1,0 +1,8 @@
+def func(z):
+  #same input and output as sigmoid function
+  s = z / (1 + abs(z))
+  
+  return s
+  
+  # decreased the learning rate to allow function to be more accurate and proportionately of increased the iterations
+  d = model(train_set_x.T, labels_train, test_set_x.T, labels_test, num_iterations = 5000000, learning_rate = 0.002, print_cost = True)
